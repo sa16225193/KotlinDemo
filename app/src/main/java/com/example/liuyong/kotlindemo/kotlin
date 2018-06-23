@@ -1,0 +1,326 @@
+import com.example.liuyong.kotlindemo.*
+import java.lang.Integer.parseInt
+import java.text.SimpleDateFormat
+import java.util.*
+
+/**
+ * 定义变量
+ */
+val a: Int = 2  //显示声明类型
+val b = 2 //自动推断`Int`类型
+
+
+/**
+ * 定义函数
+ * 两个Int参数，以及返回值为Int
+ */
+fun sum1(a: Int, b: Int): Int {
+    return a + b
+}
+
+/**
+ * 将表达式作为函数体，返回值由表达式值自动推断
+ */
+fun sum2(a: Int, b: Int) = a + b
+
+/**
+ * 无返回值，Unit表示Void，可以省略
+ */
+fun printSum(a: Int, b: Int): Unit {
+    println("sum of $a and $b is ${a + b}")//sum of a and b is {a + b}
+}
+
+fun main(args: Array<String>) {
+    //val定义只读变量，相当于final
+    val c: Int // 如果没有初始值类型不能省略
+    c = 3
+    val PI = 3.14
+
+    //var定义可变变量
+    var x = 5
+    x++
+
+    fun incrementX() {
+        x++
+    }
+
+    var a = 1
+    val s1 = "a is $a"
+    a = 2
+    val s2 = "${s1.replace("is", "was")}, but now is $a"
+    println("${s1.plus(" is 999")}")
+
+    //条件表达式
+    fun maxOf(a: Int, b: Int) = if (a > b) a else b
+
+    parseInt("a") ?: 0
+
+
+    //Int?表示返回值可以为null
+    fun parseInt(str: String): Int? = Integer.parseInt(str)
+
+    //类型检测与转换,is——相对与instanceof
+    fun getStringLength(obj: Any): Int? {
+        if (obj is String) {
+            // `obj` 在该条件分支内自动转换成 `String`
+            return obj.length
+        }
+
+        // 在离开类型检测分支后，`obj` 仍然是 `Any` 类型
+        return null
+    }
+
+    println("${'*'}")
+    println("\\")
+
+    var int_Set: MutableSet<Int> = mutableSetOf()
+    int_Set.add(1)
+    int_Set.add(2)
+    int_Set.add(3)
+    println("$int_Set")
+    var char_Set: Set<Char> = setOf('a', 'b', 'c')
+    char_Set.plus('d')
+    println("$char_Set")
+    char_Set.forEach { print("$it + , ") }
+    var phone_list = listOf("iPhone8", "Mate10", "小米6", "OPPO R11", "vivo X9S", "魅族Pro6S")
+    println("${phone_list.sortedBy { it.length }}")
+    println("${phone_list.sortedByDescending { it.length }}")
+    var phoneMap = mutableMapOf(Pair("苹果", "iPhone8"), Pair("华为", "Mate10"), Pair("小米", "小米MIX2"), Pair("魅族", "魅族PRO6S"))
+    var iterator = phoneMap.iterator()
+    while (iterator.hasNext()) {
+        println("厂家：${iterator.next().key}, 手机型号：${iterator.next().value}")
+    }
+    phoneMap.forEach { t, u -> println("厂家：${t}, 手机型号：${u}") }
+    println(if (true) "aaa" else "bbb")
+
+    var random = Random()
+    for (i in 1..3) {
+        var count = random.nextInt(12)
+        var month = random.nextInt(3)
+        var season = when (count) {
+            12, 1, 2 -> "Winter"
+            month -> "Winter"
+            in 3..5 -> "Spring"
+            !in 10..12 -> "Autumn"
+            else -> "Summer"
+        }
+        println(season)
+    }
+
+    var array = arrayOf(1, 2, 3, 4, 5)
+    for (i in array.indices) {
+        print("${array[i]}, ")
+    }
+
+    for (i in 0 until array.size) {
+        print("${array[i]}, ")
+    }
+
+    for (i in 0..array.size - 1) {
+        print("${array[i]}, ")
+    }
+
+    var i = random.nextInt(10)
+    while (i in 1..10) {
+        if (i % 2 == 0) {
+            print("$i is an even number")
+        } else {
+            print("$i is an odd number")
+        }
+    }
+
+    for (i in 1..10) {
+        if (i % 2 == 0) {
+            println("$i is an even number")
+            continue
+            println("$i after continu")
+        }
+        if (i % 5 == 0) {
+            println("$i before break")
+            break
+        }
+        println("$i")
+    }
+
+    var k = 1
+    outside@
+    while(k < 10) {
+        if (k % 3 == 0) {
+            continue@outside
+        }
+        if (k % 5 == 0) {
+            break@outside
+        }
+        println(k)
+        k++
+//        var j = 0
+//        while(j < 10) {
+//            println(j)
+//            if(j % 2 == 0) {
+//                break@outside
+//            }
+//            j++
+//        }
+    }
+    var str: String?
+    str = null
+    println(str?.length?: -1)
+
+    val aaa = "aaa"
+    val b = String("aaa".toByteArray())
+    println(aaa == b)
+
+    fun <T> appendString(tag: String, vararg otherInfo: T?): String {
+        var str: String = "$tag: "
+        for (item in otherInfo) {
+            str = "$str${item.toString()}, "
+        }
+        return str
+    }
+    println(appendString("烧钱的日子", 5.20, 6.18, 11.11, 12.12))
+
+//    fun setArrayNumber(params: Array<Number>) {
+//        for (item in params) {
+//            println(params)
+//        }
+//    }
+//
+//    fun <T: Number> setArrayNumber(params: Array<T>) {
+//        for (item in params) {
+//            println(params)
+//        }
+//    }
+//    var aaaaa: Int = 0
+//    var int_array: Array<Int> = arrayOf(1, 2, 3)
+//    var arrayOfNumbers: Array<Number>  = arrayOf(1, 2, 3)
+//    setArrayNumber(int_array)
+//    setArrayNumber(arrayOfNumbers)
+//
+//    //greater函数有两个参数
+//    //如果第一个参数大于第二个参数，greater就返回true，否则返回false
+//    fun maxString(array: Array<String>, greater: (String, String) -> Boolean): String? {
+//        var max: String? = null
+//        for (item in array) {
+//            if (max == null || greater(item, max)) {
+//                max = item
+//            }
+//        }
+//        return max
+//    }
+//    var string_array: Array<String> = arrayOf("What", "a", "good", "weather", "today")
+//    println(maxString(string_array, {a, b -> a.trim().length > b.trim().length}))
+//
+fun <T> Array<T>.swap(pos1: Int, pos2: Int) {
+    var tmp = this[pos1]//this表示数组本身
+    this[pos1] = this[pos2]
+    this[pos2] = tmp
+}
+
+    var int_array: Array<Int> = arrayOf(1, 2, 3, 4, 5)
+    int_array.swap(0, int_array.size - 1)
+    for (item in int_array) {
+        print("$item ,")
+    }
+
+    fun <T> Array<T>.maxCustom(greater: (T, T) -> Boolean): T? {
+        var max: T? = null
+        for (item in this) {
+            if (max == null || greater(item, max)) {
+                max = item
+            }
+        }
+        return max
+    }
+
+    var string_array: Array<String> = arrayOf("What", "a", "good", "weather", "today")
+    var max = string_array.maxCustom({a, b -> a.trim().length > b.trim().length})
+    println(max)
+
+    //返回日期时间格式:2017-10-01 10:00:00
+    fun Date.getNowDateTime(): String {
+        return SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(this)
+    }
+
+    //只返回日期字符串
+    fun Date.getNowDate(): String {
+        return SimpleDateFormat("yyyy-MM-dd").format(this)
+    }
+
+    //只返回时间字符串
+    fun Date.getNowTime(): String {
+        return SimpleDateFormat("HH:mm:ss").format(this)
+    }
+
+    //返回详细的时间字符串，精确到毫秒
+    fun Date.getNowTimeDetail(): String {
+        return SimpleDateFormat("HH:mm:ss.SSS").format(this)
+    }
+
+    //根据指定格式返回日期时间字符串
+    fun Date.getFormatTime(format: String): String {
+        return SimpleDateFormat(format).format(this)
+    }
+
+    println(Date().getNowDateTime())
+    println(Date().getNowDate())
+    println(Date().getNowTime())
+    println(Date().getNowTimeDetail())
+    println(Date().getFormatTime("yyyy年MM月dd日 HH时mm分ss秒SSS毫秒"))
+
+    DateUtil.number
+
+    println(Animal("Dog ").color)
+
+    Bird(BehaviorFly("bird")).fly()
+    Bird(BehaviorFly("bird")).run()
+
+    Tigger(BehaviorRun("tigger")).fly()
+    Tigger(BehaviorRun("tigger")).run()
+
+
+    println(Tree("牵牛树").Flower("牵牛花").getName())
+
+    for(item in Season.values()) {
+        println("ordinal is ${item.ordinal}, name is ${item.name}")
+    }
+
+    var count = 0
+    println(when(count++%4) {
+        SeasonWithName.SPRING.ordinal -> SeasonWithName.SPRING.season
+        SeasonWithName.SUMMER.ordinal -> SeasonWithName.SUMMER.season
+        SeasonWithName.AUTUMN.ordinal -> SeasonWithName.AUTUMN.season
+        SeasonWithName.WINTER.ordinal -> SeasonWithName.WINTER.season
+//        else -> SeasonWithName("未知")//不能在枚举类的外部调用枚举类的构造函数
+        else -> "未知"
+    })
+
+    var season = when(count++%4) {
+        0 -> SeasonSealed.Spring("春天")
+        1 -> SeasonSealed.Summer("夏天")
+        2 -> SeasonSealed.Autumn("秋天")
+        else -> SeasonSealed.Winter("冬天")
+    }
+
+    println(
+          when(season) {
+              is SeasonSealed.Spring -> season.name
+              is SeasonSealed.Summer -> season.name
+              is SeasonSealed.Autumn -> season.name
+              is SeasonSealed.Winter -> season.name
+          }
+    )
+
+    var lotus = Plant("莲", "莲藕", "莲叶", "莲花", "莲蓬", "莲子")
+    //数据类的copy方法不带参数，表示复制一模一样的对象
+    var lotusCopy = lotus.copy()
+    var lotusCopyChange = lotus.copy(flower = "荷花")
+    println(lotus.equals(lotusCopy))
+    println(lotus.equals(lotusCopyChange))
+    println(lotus.toString())
+
+    println(River("小溪", 100).getInfo())
+    println(River("大河","一千").getInfo())
+
+}
+
+
